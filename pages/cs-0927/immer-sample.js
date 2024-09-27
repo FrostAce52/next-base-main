@@ -12,7 +12,8 @@ export default function ImmerSample(props) {
       },
     },
   })
-  const [user2, setUser2] = useState({
+  const [user2, setUser2] = useImmer({
+    //此處 useState 改為 useImmer
     id: 1,
     name: 'Nike',
     address: {
