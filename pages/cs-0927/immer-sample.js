@@ -30,6 +30,18 @@ export default function ImmerSample(props) {
       >
         修改姓名為Iris
       </button>
+      <br />
+      <button
+        onClick={() => {
+          const nextUser = produce(user, (draft) => {
+            draft.name = 'Iris'
+          })
+          setUser(nextUser)
+        }}
+      >
+        [immer]修改姓名為Iris
+      </button>
+      <br />
       <button
         onClick={() => {
           const nextUser = {
@@ -47,6 +59,28 @@ export default function ImmerSample(props) {
         }}
       >
         修改城市為New Taipei City
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          const nextUser = JSON.parse(JSON.stringify(user))
+          nextUser.address.country.city = 'New Taipei City'
+          setUser(nextUser)
+        }}
+      >
+        [深拷貝]修改城市為New Taipei City
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          const nextUser = produce(user, (draft) => {
+            // 直接修改物件屬性(是在draft草稿狀態上)
+            draft.address.country.city = 'New Taipei City'
+          })
+          setUser(nextUser)
+        }}
+      >
+        [immer]修改城市為New Taipei City
       </button>
     </>
   )
