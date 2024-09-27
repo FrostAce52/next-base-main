@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { produce } from 'immer'
+import { useImmer } from 'use-immer'
 
 export default function ImmerSample(props) {
   const [user, setUser] = useState({
+    id: 1,
+    name: 'Nike',
+    address: {
+      country: {
+        city: 'Taipei City',
+      },
+    },
+  })
+  const [user2, setUser2] = useState({
     id: 1,
     name: 'Nike',
     address: {
@@ -78,6 +88,30 @@ export default function ImmerSample(props) {
             draft.address.country.city = 'New Taipei City'
           })
           setUser(nextUser)
+        }}
+      >
+        [immer]修改城市為New Taipei City
+      </button>
+      <hr />
+      <h1>use-immer版本</h1>
+      <hr />
+      <p>姓名: {user2.name}</p>
+      <p>城市: {user2.address.country.city}</p>
+      <button
+        onClick={() => {
+          setUser2((draft) => {
+            draft.name = 'Iris'
+          })
+        }}
+      >
+        [use-immer]修改姓名為Iris
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          setUser2((draft) => {
+            draft.address.country.city = 'New Taipei City'
+          })
         }}
       >
         [immer]修改城市為New Taipei City
