@@ -45,6 +45,35 @@ export default function ShoppingCart() {
     })
     setProducts(newProducts)
   }
+  // react官網解答(遞減)
+  // https://zh-hans.react.dev/learn/updating-arrays-in-state#challenges
+  function handleDecreaseClick(productId) {
+    // 這裡一定要用let宣告，因為下面有重覆指定
+    let nextProducts = products.map((product) => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          count: product.count - 1,
+        }
+      } else {
+        return product
+      }
+    })
+    // 在設定到狀態前，先作一次filter，只留下count(數量)大於0的
+    nextProducts = nextProducts.filter((p) => p.count > 0)
+
+    // 設定到狀態
+    // 如果準備要設到狀態的nextProducts項目數比目前的products少，
+    // 代表是準備作刪除的動作
+    if (products.length > nextProducts.length) {
+      if (confirm('你確定要移除此商品嗎？')) {
+        setProducts(nextProducts)
+      }
+    } else {
+      setProducts(nextProducts)
+    }
+  }
+
   // 處理刪除
   const handleRemove = (id) => {
     const newProducts = products.filter((v) => v.id !== id)
@@ -62,6 +91,11 @@ export default function ShoppingCart() {
           >
             +
           </button>
+          <button
+            onClick={() => {
+              handleDecreaseClick(product.id)
+            }}
+          >官網版–</button>
           <button
             onClick={() => {
               // 預先計算，如果使用者按下減按鈕，數量如果減少會是多少
