@@ -12,7 +12,7 @@ export default function Parent(props) {
         isConnected={true}
         aa={[1, 2, 3]}
         oa={{ a: 1, b: 2 }}
-        sum={(x, y) => x + y}
+        // sum={(x, y) => x + y}
       />
     </>
   )
