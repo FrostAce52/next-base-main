@@ -1,4 +1,5 @@
 import AddForm from '@/components/todo-app/add-form'
+import List from '@/components/todo-app/list'
 import React, { useState, useEffect } from 'react'
 
 export default function Todo(props) {
@@ -78,42 +79,11 @@ export default function Todo(props) {
       {/* 新增todo的文字輸入框子元件 */}
       <AddForm handleAdd={handleAdd} />
       <hr />
-      <ul>
-        {getTodosByFilterType().map((todo) => {
-          return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                // 核取方塊的呈現是對應checked屬性(布林值)
-                checked={todo.completed}
-                // onChange事件要對應到value對應狀態的更動情況
-                onChange={() => {
-                  handleToggleCompleted(todo.id)
-                }}
-              />
-              <span
-                // 利用狀態改變來切換不同的樣式
-                className={todo.completed ? 'completed' : 'active'}
-                // 也可以使用style屬性來切換樣式，適合只有一點點樣式使用
-                // style={{
-                //   color: todo.completed ? 'gray' : 'green',
-                //   textDecoration: todo.completed ? 'line-through' : 'none',
-                //   fontWeight: todo.completed ? 'normal' : 'bold',
-                // }}
-              >
-                {todo.text}
-              </span>
-              <button
-                onClick={() => {
-                  handleRemove(todo.id)
-                }}
-              >
-                刪除
-              </button>
-            </li>
-          )
-        })}
-      </ul>
+      <List
+        todos={getTodosByFilterType()}
+        handleRemove={handleRemove}
+        handleToggleCompleted={handleToggleCompleted}
+      />
       <div>
         {filterOptions.map((v, i) => {
           return (
@@ -128,22 +98,6 @@ export default function Todo(props) {
           )
         })}
       </div>
-      {/* 這裡示範使用styled-jsx來套用本頁的樣式 */}
-      <style jsx>
-        {`
-          .completed {
-            color: gray;
-            text-decoration: line-through;
-            font-weight: normal;
-          }
-
-          .active {
-            color: green;
-            text-decoration: none;
-            font-weight: bold;
-          }
-        `}
-      </style>
     </>
   )
 }
