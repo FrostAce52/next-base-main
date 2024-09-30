@@ -14,8 +14,26 @@ export default function BookList() {
   const initState = data.map((v) => {
     return { ...v, fav: false }
   })
+
   // 宣告狀態
   const [books, setBooks] = useState(initState)
+
+  // 切換book項目的fav屬性
+  const handleToggleFav = (isbn) => {
+    const nextBooks = books.map((v) => {
+      // 這裡判斷isbn值是否等於傳入isbn
+      if (v.isbn === isbn) {
+        // 這裡切換項目的fav屬性
+        return { ...v, fav: !v.fav }
+      } else {
+        return v
+      }
+    })
+
+    // 設定到狀態
+    setBooks(nextBooks)
+  }
+
   return (
     <>
       <h1>書籍清單</h1>
@@ -36,7 +54,13 @@ export default function BookList() {
                 <td>{book.title}</td>
                 <td>{book.author}</td>
                 <td>
-                  <Image src={bookmarkIcon} alt="" />
+                  <Image
+                    onClick={() => {
+                      handleToggleFav(book.isbn)
+                    }}
+                    src={book.fav ? bookmarkIconFill : bookmarkIcon}
+                    alt=""
+                  />
                 </td>
               </tr>
             )
