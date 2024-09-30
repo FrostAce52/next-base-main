@@ -4,6 +4,7 @@ export default function Item({
   todo = {},
   handleRemove = () => {},
   handleToggleCompleted = () => {},
+  handleToggleEditing = () => {},
 }) {
   return (
     <>
@@ -18,6 +19,10 @@ export default function Item({
           }}
         />
         <span
+          // 雙點按滑鼠指標進入編輯狀態
+          onDoubleClick={() => {
+            handleToggleEditing(todo.id)
+          }}
           // 利用狀態改變來切換不同的樣式
           className={todo.completed ? 'completed' : 'active'}
         >
@@ -29,6 +34,13 @@ export default function Item({
           }}
         >
           刪除
+        </button>
+        <button
+          onClick={() => {
+            handleToggleEditing(todo.id)
+          }}
+        >
+          編輯
         </button>
       </li>
       {/* 這裡示範使用styled-jsx來套用本頁的樣式 */}

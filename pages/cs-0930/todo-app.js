@@ -7,8 +7,8 @@ export default function TodoApp() {
   // 宣告待辨事項使用的物件陣列狀態
   // 擴充completed屬性(布林值)，代表是否已完成(已完成=true)
   const [todos, setTodos] = useState([
-    { id: 1, text: '買牛奶', completed: true },
-    { id: 2, text: '學react', completed: false },
+    { id: 1, text: '買牛奶', completed: true, editing: false },
+    { id: 2, text: '學react', completed: false, editing: false },
   ])
 
   // 宣告過濾類型狀態('所有', '進行中', '已完成')
@@ -19,7 +19,7 @@ export default function TodoApp() {
     // 如果文字不是空白時再作新增
     if (text) {
       // 寫出要新增的物件值(這裡記得在新增時，也要加上預設的`completed: false`屬性)
-      const newTodo = { id: Date.now(), text, completed: false }
+      const newTodo = { id: Date.now(), text, completed: false, editing: false }
       // 設定到狀態
       setTodos([newTodo, ...todos])
     }
@@ -39,6 +39,40 @@ export default function TodoApp() {
       if (v.id === id) {
         // 這裡切換todo項目的completed屬性
         return { ...v, completed: !v.completed }
+      } else {
+        return v
+      }
+    })
+
+    // 設定到狀態
+    setTodos(nextTodos)
+  }
+
+  // 切換todo項目的editing屬性
+  // 注意同時之間只允許有一個項目編輯
+  const handleToggleEditing = (id) => {
+    const nextTodos = todos.map((v, i) => {
+      // 這裡判斷id值是否等於傳入id
+      if (v.id === id) {
+        // 這裡切換todo項目的editing屬性
+        return { ...v, editing: !v.editing }
+      } else {
+        // 其它非此項目都要切換為false
+        return { ...v, editing: false }
+      }
+    })
+
+    // 設定到狀態
+    setTodos(nextTodos)
+  }
+
+  // 切換todo項目的editing屬性
+  const handleUpdateText = (id, text) => {
+    const nextTodos = todos.map((v, i) => {
+      // 這裡判斷id值是否等於傳入id
+      if (v.id === id) {
+        // 這裡todo項目的editing屬性改回原狀態，文字更新為傳入的值
+        return { ...v, editing: false, text: text }
       } else {
         return v
       }
@@ -73,6 +107,8 @@ export default function TodoApp() {
         todos={getTodosByFilterType()}
         handleRemove={handleRemove}
         handleToggleCompleted={handleToggleCompleted}
+        handleToggleEditing={handleToggleEditing}
+        handleUpdateText={handleUpdateText}
       />
       {/* 過濾已完成、進行中的按鈕群組列 */}
       <FilterBar filterType={filterType} setFilterType={setFilterType} />
