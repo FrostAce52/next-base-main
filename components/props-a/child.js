@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { isCurrency } from 'validator'
 
 // 子女元件可以從函式的傳入參數值，得到父母元件傳來的值
 // props必定是一個物件，裡面包含了父母元件傳來的所有資料
@@ -27,4 +29,12 @@ export default function Child({
       <p>sum(1,2)={sum(1, 2)}</p>
     </>
   )
+}
+
+// 定義屬性類型檢查(只會有主控台警告，不會阻擋執行跳錯誤)
+// 寫在元件的函式外面
+Child.propTypes = {
+  title: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  isConnected: PropTypes.bool.isRequired,
 }
