@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // 導入.module.css檔案
 import styles from './star.module.css'
 
 export default function Star({
+  value = 0, // value的意義和initRating不同，是要作完全綁定父母元件的某個狀態(受控元件)
   initRating = 0, // 初始評分(一開始點亮幾個星星)
   maxCount = 5, // 最多可評分數(幾個星星)
   onRatingChange = () => {},
@@ -12,6 +13,16 @@ export default function Star({
 
   // 滑鼠游標懸停(hover)點按時的評分，一開始是0分代表沒有評分
   const [hoverRating, setHoverRating] = useState(0)
+
+  // 如果單純只是初始化值，原本的使用是沒問題的。但要綁定到父母元件變動時，就會有不同步的問題
+  // 參考: https://vhudyma-blog.eu/react-antipatterns-props-in-initial-state/
+  // https://medium.com/@joabi/react-anti-patterns-props-in-initial-state-ad8e1060cd87
+  // 使用useEffect作完全綁定父母元件傳入狀態
+  // 監聽傳入的value屬性值的更動，一旦有更動就設定本元件的rating狀態的評分，達成完全綁定同步
+  // 這種元件在官網文件中稱為controlled component(可控的/受控的 元件)
+  useEffect(() => {
+    setRating(value)
+  }, [value])
 
   return (
     <>
