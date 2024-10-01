@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Star from '@/components/star'
+import { FaStar, FaHeart } from 'react-icons/fa'
 
 export default function StarTest(props) {
   const [r1, setR1] = useState(1)
@@ -19,6 +20,7 @@ export default function StarTest(props) {
         onRatingChange={setR1}
         fillColor="red"
         emptyColor="green"
+        icon={<FaHeart />}
       />
       <p>目前評了{r1}分</p>
       <button
@@ -35,6 +37,7 @@ export default function StarTest(props) {
         onRatingChange={setR2}
         fillColor="#ff6600"
         emptyColor="#ccc"
+        icon={<FaStar />}
       />
       <p>目前評了{r2}分</p>
     </>
