@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { AuthContext } from '@/context/auth'
 
+import { useRouter } from 'next/router'
+
 export default function MyApp({ Component, pageProps }) {
   // 使用自訂在頁面層級的版面(layout)
   const getLayout = Component.getLayout || ((page) => page)
+
+  const router = useRouter()
 
   const [auth, setAuth] = useState({
     isAuth: false, // 代表會員是否已經登入的信號值
@@ -27,6 +31,11 @@ export default function MyApp({ Component, pageProps }) {
           username: 'herry',
         },
       })
+
+      // 歡迎訊息與詢問是否要到個人資料頁
+      if (confirm('你好，是否要前往個人資料頁?')) {
+        router.push('/cs-1001/user/profile')
+      }
     } else {
       alert('帳號或密碼錯誤')
     }
