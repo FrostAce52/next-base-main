@@ -11,8 +11,7 @@ export default function MyApp({ Component, pageProps }) {
   // 包含所有頁面元件，與頁面中的元件
   return (
     <AuthContext.Provider>
-      getLayout(
-      <Component {...pageProps} />)
+      {getLayout(<Component {...pageProps} />)}
     </AuthContext.Provider>
   )
 }
