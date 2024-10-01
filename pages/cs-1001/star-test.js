@@ -13,7 +13,13 @@ export default function StarTest(props) {
       <Star />
       <hr />
       <h2>測試組</h2>
-      <Star value={r1} maxCount={6} onRatingChange={setR1} />
+      <Star
+        value={r1}
+        maxCount={6}
+        onRatingChange={setR1}
+        fillColor="red"
+        emptyColor="green"
+      />
       <p>目前評了{r1}分</p>
       <button
         onClick={() => {
@@ -23,7 +29,13 @@ export default function StarTest(props) {
         設為5星
       </button>
       <hr />
-      <Star value={r2} maxCount={8} onRatingChange={setR2} />
+      <Star
+        value={r2}
+        maxCount={8}
+        onRatingChange={setR2}
+        fillColor="#ff6600"
+        emptyColor="#ccc"
+      />
       <p>目前評了{r2}分</p>
     </>
   )
