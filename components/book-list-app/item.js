@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react'
-
-import Image from 'next/image'
-
-// 實心圖
-import bookmarkIconFill from '@/assets/bookmark-fill.svg'
-// 空心圖
-import bookmarkIcon from '@/assets/bookmark.svg'
+import FavIcon from './fav-icon'
 
 export default function Item({ book = {}, handleToggleFav = () => {} }) {
   return (
     <>
-      <tr key={book.isbn}>
+      <tr>
         <td>{book.isbn}</td>
         <td>{book.title}</td>
         <td>{book.author}</td>
         <td>
-          <Image
-            onClick={() => {
-              handleToggleFav(book.isbn)
-            }}
-            src={book.fav ? bookmarkIconFill : bookmarkIcon}
-            alt=""
+          <FavIcon
+            isbn={book.isbn}
+            fav={book.fav}
+            handleToggleFav={handleToggleFav}
           />
         </td>
       </tr>
