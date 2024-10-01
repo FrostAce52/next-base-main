@@ -2,9 +2,13 @@ import { useState } from 'react'
 // 導入.module.css檔案
 import styles from './star.module.css'
 
-export default function Star() {
+export default function Star({
+  initRating = 0, // 初始評分(一開始點亮幾個星星)
+  maxCount = 5, // 最多可評分數(幾個星星)
+  onRatingChange = () => {},
+}) {
   // 點按時的評分，一開始是0分代表沒有評分
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(initRating)
 
   // 滑鼠游標懸停(hover)點按時的評分，一開始是0分代表沒有評分
   const [hoverRating, setHoverRating] = useState(0)
@@ -16,7 +20,7 @@ export default function Star() {
           這裡使用簡易建立5個陣列1...N的語法，可以參考:
           https://github.com/orgs/mfee-react/discussions/50 
         */}
-        {Array(5)
+        {Array(maxCount)
           .fill(1)
           .map((v, i) => {
             // 每個星星按鈕的分數，相當於索引值+1
@@ -28,6 +32,8 @@ export default function Star() {
                 onClick={() => {
                   // 點按後設定分數
                   setRating(score)
+                  // 送分數回使用此元件的父母元件
+                  onRatingChange(score)
                 }}
                 onMouseEnter={() => {
                   setHoverRating(score)
