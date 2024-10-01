@@ -4,6 +4,8 @@ import Item from './item'
 // 範例資料
 import data from '@/data/books.json'
 
+import styles from '@/components/book-list-app/book-list.module.css'
+
 export default function BookList() {
   // 擴充一個可以代表是否有加入收藏的(我的最愛)布林值屬性，預設是false
   const initState = data.map((v) => {
@@ -32,7 +34,7 @@ export default function BookList() {
   return (
     <>
       <h1>書籍清單</h1>
-      <table>
+      <table className={styles['my-table']}>
         <thead>
           <tr>
             <th>ISBN</th>
