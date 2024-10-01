@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react'
-import { AuthContext } from '@/context/auth'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/use-auth'
 
 export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const { auth, login, logout } = useContext(AuthContext)
+  const { auth, login, logout } = useAuth()
 
   const loginForm = (
     <>

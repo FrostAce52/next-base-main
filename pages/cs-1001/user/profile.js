@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react'
-import { AuthContext } from '@/context/auth'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/use-auth'
 
 export default function Profile() {
-  const { auth } = useContext(AuthContext)
+  const { auth } = useAuth()
   return (
     <>
       <h1>會員個人資料頁</h1>
