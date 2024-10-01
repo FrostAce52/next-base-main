@@ -58,8 +58,16 @@ export default function Star({
               >
                 <span
                   // 判斷星星是否要點亮。如果這個星星的分數(score)小於等於目前的評分(rating)，則套用亮起樣式
+                  // 使用css modules解決方案套用動態顏色屬性 + css3 變數 + style屬性
+                  style={{
+                    '--fill-color': fillColor,
+                    '--empty-color': emptyColor,
+                  }}
+                  // 與原本的樣式是一樣的，主要要更動module.css檔案中套入css3變數
                   className={
-                    score <= rating || score <= hoverRating ? 'on' : 'off'
+                    score <= rating || score <= hoverRating
+                      ? styles.on
+                      : styles.off
                   }
                 >
                   &#9733;
@@ -68,17 +76,6 @@ export default function Star({
             )
           })}
       </div>
-      <style jsx>
-        {`
-          .on {
-            color: ${fillColor};
-          }
-
-          .off {
-            color: ${emptyColor};
-          }
-        `}
-      </style>
     </>
   )
 }
