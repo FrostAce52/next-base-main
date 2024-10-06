@@ -41,6 +41,7 @@ export default function Detail(props) {
   return (
     <>
       <h1>商品詳細頁</h1>
+      {/* 先拿到資料再呈現 */}
       <p>名稱: {product.name && product.name}</p>
       <p>價格: {product.price !== 0 && product.price}</p>
     </>
