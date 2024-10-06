@@ -59,6 +59,9 @@ export default function Cart() {
     setItems(nextItems)
   }
 
+  const totalQty = items.reduce((acc, v) => acc + v.qty, 0)
+  const totalPrice = items.reduce((acc, v) => acc + v.qty * v.price, 0)
+
   return (
     <>
       <div className={styles['container']}>
@@ -91,7 +94,9 @@ export default function Cart() {
           />
         </div>
         <hr />
-        <div>總數量: 123 / 總金額: 123000</div>
+        <div>
+          總數量: {totalQty} / 總金額: {totalPrice}
+        </div>
       </div>
     </>
   )
