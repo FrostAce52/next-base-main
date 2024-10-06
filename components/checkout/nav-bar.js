@@ -1,8 +1,11 @@
 import styles from './cart.module.css'
 import { FaShoppingCart } from 'react-icons/fa'
 import Link from 'next/link'
+import { useCart } from '@/hooks/use-cart'
 
 export default function Navbar() {
+  const { totalQty } = useCart()
+
   return (
     <>
       <div className={styles['navbar']}>
@@ -18,7 +21,7 @@ export default function Navbar() {
         <div className={styles['badge']}>
           <div className={styles['button']}>
             <FaShoppingCart />
-            <span className={styles['button__badge']}>4</span>
+            <span className={styles['button__badge']}>{totalQty}</span>
           </div>
         </div>
       </div>
