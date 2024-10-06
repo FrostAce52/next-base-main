@@ -12,6 +12,9 @@ export function CartProvider({ children }) {
   // 購物車中的購買項目
   const [items, setItems] = useState([])
 
+  // 宣告一個是否此元件已完成初次渲染的狀態信號值
+  const [didMount, setDidMount] = useState(false)
+
   // 新增商品到購物車
   const onAdd = (product) => {
     // 先判斷此商品是否已經在購物車中
@@ -69,6 +72,24 @@ export function CartProvider({ children }) {
   // 計算總數量與總金額
   const totalQty = items.reduce((acc, v) => acc + v.qty, 0)
   const totalPrice = items.reduce((acc, v) => acc + v.qty * v.price, 0)
+
+  // 初次渲染的時間點，從local Storage讀出資料設定到狀態中
+  useEffect(() => {
+    // 設定已經初渲染完成了
+    setDidMount(true)
+    // 從local Storage讀出資料設定到狀態中
+    setItems(JSON.parse(localStorage.getItem('cart')) || [])
+  }, [])
+
+  // 當items有變化時，要同步寫到local Storage
+  useEffect(() => {
+    if (didMount) {
+      // 這裡不是初次渲染時(指的是在更新階段)，同步寫到local Storage
+      localStorage.setItem('cart', JSON.stringify(items))
+    }
+    // 因為不需要加入didMount到監聽的狀態中，所以用下面這行略過檢查而已
+    // eslint-disable-next-line
+  }, [items])
 
   //3. 最外(上)元件階層包裹提供者元件，可以提供它的值給所有後代⼦孫元件使⽤，包含所有頁面元件，與頁面中的元件
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './cart.module.css'
 import { useCart } from '@/hooks/use-cart'
-// 訊息對話盒
+// 訊息對話盒，需要先安裝套件
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
