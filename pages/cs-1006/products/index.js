@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
+// 路由: `/products`
 export default function ProductsIndex(props) {
   return (
     <>
-      <div>ProductsIndex</div>
+      <div>索引檔路由(index.js)</div>
     </>
   )
 }
