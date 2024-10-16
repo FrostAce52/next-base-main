@@ -1,3 +1,6 @@
+//  refs: https://zhuanlan.zhihu.com/p/415365117
+//        https://github.com/facebook/react/issues/3926
+// https://eddychang.me/blog/react-chinese-ime-issue
 import { useRef, useState, forwardRef } from 'react'
 
 function InputIME(props, ref) {
