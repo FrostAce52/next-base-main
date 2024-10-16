@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MyInputText from '@/components/controlled-form/my-input-text'
 import MyTextarea from '@/components/controlled-form/my-textarea'
 import MySelect from '@/components/controlled-form/my-select'
+import MyRadioButtonGroup from '@/components/controlled-form/my-radeo-button-group'
 
 export default function ControlledForm() {
   return (
@@ -9,7 +10,8 @@ export default function ControlledForm() {
       <h1>可控表單元件</h1>
       {/* <MyInputText /> */}
       {/* <MyTextarea /> */}
-      <MySelect />
+      {/* <MySelect /> */}
+      <MyRadioButtonGroup />
     </>
   )
 }
