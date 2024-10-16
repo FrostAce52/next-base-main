@@ -10,13 +10,17 @@ export default function MyInputText(props) {
   const [birth, setBirth] = useState('2024-10-16')
   // 轉換函式
   // 時間日期物件 ==> yyyy-mm-dd 字串
-  // sv (Swedish	svenska 瑞典語)，此語言使用的本地日期格式是ISO 8601
+  // sv (Swedish/svenska/,瑞典語)，此語言使用的本地日期格式是ISO 8601
   const dateToString = (date = null) =>
     date instanceof Date ? date.toLocaleDateString('sv') : ''
   // yyyy-mm-dd 字串 ==> 時間日期物件
   const stringToDate = (str = '') => new Date(str)
   // 時間日期物件(特殊物件，初始值可以用null或使用今天、某天)
   const [inputDateObj, setInputDateObj] = useState(null)
+  // input-password
+  const [pass, setPass] = useState('')
+  // checkbox呈現密碼用
+  const [show, setShow] = useState(false)
 
   return (
     <>
@@ -70,6 +74,28 @@ export default function MyInputText(props) {
         }}
       />
       <h2>密碼輸入框(input-password)</h2>
+      <input
+        type={show ? 'text' : 'password'}
+        value={pass}
+        onChange={(e) => {
+          setPass(e.target.value)
+        }}
+      />
+      <input
+        type="checkbox"
+        checked={show}
+        onChange={(e) => {
+          setShow(e.target.checked)
+        }}
+      />{' '}
+      呈現密碼
+      <button
+        onClick={() => {
+          setShow(!show)
+        }}
+      >
+        {show ? '隱藏' : '呈現'}
+      </button>
     </>
   )
 }
