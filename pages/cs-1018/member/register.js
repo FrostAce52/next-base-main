@@ -37,10 +37,7 @@ export default function RegisterForm() {
     setUser(nextUser)
   }
 
-  const handleSubmit = async (e) => {
-    // 固定的ajax/fetch的語法，會在表單submit觸發的第一行阻擋表單的預設行為
-    e.preventDefault()
-
+  const checkError = (user) => {
     // 表單檢查--START---
     // 1. 建立一個全新的錯誤訊息用物件
     const newErrors = {
@@ -86,19 +83,31 @@ export default function RegisterForm() {
       newErrors.confirmPassword = '確認密碼為必填'
     }
 
-    // 3. 呈現錯誤訊息
-    setErrors(newErrors)
     // 如果newErrors中的物件值中其中有一個非空白字串，代表有錯誤發生
     const hasErrors = Object.values(newErrors).some((v) => v)
+
+    // 表單檢查--END---
+    return { newErrors, hasErrors }
+  }
+
+  const handleSubmit = async (e) => {
+    // 固定的ajax/fetch的語法，會在表單submit觸發的第一行阻擋表單的預設行為
+    e.preventDefault()
+
+    // 檢查錯誤
+    const { newErrors, hasErrors } = checkError(user)
+    // 呈現錯誤訊息
+    setErrors(newErrors)
     // 有錯誤，不送到伺服器，跳出此函式
     if (hasErrors) {
       return // 跳出此函式，在下面的程式碼不會再執行
     }
-    // 表單檢查--END---
 
-    // 送到伺服器，緩衝一些，讓錯誤訊息完全更新後再送到伺服器
+    // 送到伺服器
+    // 刪除不必要的欄位(不一定需要)
     const { confirmPassword, agree, ...newUser } = user
 
+    // 向伺服器作fetch
     const res = await fetch('http://localhost:3005/api/member', {
       headers: {
         Accept: 'application/json',
