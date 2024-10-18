@@ -58,8 +58,6 @@ export function AuthProvider({ children }) {
     })
   }
 
-  // 註冊路由
-
   // 得到會員個人的資料(登入之後才可以用)
   const getMember = async () => {
     // 向伺服器作fetch

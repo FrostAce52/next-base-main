@@ -38,7 +38,7 @@ export default function Login() {
       <button
         onClick={() => {
           setUsername('herry')
-          setPassword('222222')
+          setPassword('11111')
         }}
       >
         一鍵輸入
