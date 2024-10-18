@@ -58,6 +58,8 @@ export function AuthProvider({ children }) {
     })
   }
 
+  // 註冊路由
+
   // 得到會員個人的資料(登入之後才可以用)
   const getMember = async () => {
     // 向伺服器作fetch
@@ -203,6 +205,57 @@ export function AuthProvider({ children }) {
       alert('成功失敗!')
     }
   }
+
+  // 登入路由 - 當要進入隱私路由但未登入時，會跳轉到登入路由
+  const loginRoute = '/cs-1018/member/login-form'
+  // 隱私(保護)路由
+  const protectedRoutes = ['/cs-1018/member/profile', 'dashboard/order']
+  // 檢查會員狀態
+  const checkState = async () => {
+    try {
+      const url = 'http://localhost:3005/api/member'
+      const res = await fetch(url, {
+        credentials: 'include', // 設定cookie或是存取隱私資料時要加這個參數
+        method: 'GET',
+      })
+
+      const resData = await res.json()
+      console.log(resData)
+
+      if (resData.status === 'success') {
+        const member = resData.data.member
+        // 設定全域的AuthContext(useAuth勾子)
+        const nextAuth = {
+          isAuth: true,
+          userData: {
+            id: member.id,
+            username: member.username,
+          },
+        }
+        setAuth(nextAuth)
+      } else {
+        // 作隱私路由跳轉
+        if (protectedRoutes.includes(router.pathname)) {
+          // 減緩跳轉時間
+          setTimeout(() => {
+            alert('無進入權限，請先登入!')
+            router.push(loginRoute)
+          }, 1500)
+        }
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  // didMount+didUpdate
+  useEffect(() => {
+    if (router.isReady && !auth.isAuth) {
+      checkState()
+    }
+    // 加入router.pathname是為了要在伺服器檢查後
+    // 如果是隱私路由+未登入，就要執行跳轉到登入頁路由的工作
+    // eslint-disable-next-line
+  }, [router.isReady, router.pathname])
 
   //3. 最外(上)元件階層包裹提供者元件，可以提供它的值給所有後代⼦孫元件使⽤，包含所有頁面元件，與頁面中的元件
   return (
