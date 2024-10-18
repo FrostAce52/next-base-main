@@ -37,7 +37,7 @@ export default function RegisterForm() {
     setUser(nextUser)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // 固定的ajax/fetch的語法，會在表單submit觸發的第一行阻擋表單的預設行為
     e.preventDefault()
 
@@ -59,6 +59,10 @@ export default function RegisterForm() {
 
     if (!user.email) {
       newErrors.email = 'Email為必填'
+    }
+
+    if (!user.username) {
+      newErrors.username = '帳號為必填'
     }
 
     if (!user.agree) {
@@ -84,7 +88,7 @@ export default function RegisterForm() {
 
     // 3. 呈現錯誤訊息
     setErrors(newErrors)
-    // 如果newErrors中的物件值中有非空白字串，代表有錯誤發生
+    // 如果newErrors中的物件值中其中有一個非空白字串，代表有錯誤發生
     const hasErrors = Object.values(newErrors).some((v) => v)
     // 有錯誤，不送到伺服器，跳出此函式
     if (hasErrors) {
@@ -93,9 +97,19 @@ export default function RegisterForm() {
     // 表單檢查--END---
 
     // 送到伺服器，緩衝一些，讓錯誤訊息完全更新後再送到伺服器
-    setTimeout(() => {
-      alert('送到伺服器')
-    }, 0)
+    const { confirmPassword, agree, ...newUser } = user
+
+    const res = await fetch('http://localhost:3005/api/member', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(newUser),
+    })
+
+    const resData = await res.json()
+    console.log(resData)
   }
 
   return (
@@ -192,8 +206,35 @@ export default function RegisterForm() {
         <br />
         {/* 在表單(form)中加入button，記得寫type是哪一種，預設不寫是submit */}
         <button type="submit">註冊</button>
-        <button type="button" onClick={() => {}}>
+        <button
+          type="button"
+          onClick={() => {
+            setUser({
+              name: '',
+              email: '',
+              username: '',
+              password: '',
+              confirmPassword: '',
+              agree: false, // checkbox 同意會員註冊條款
+            })
+          }}
+        >
           重置
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setUser({
+              name: 'test',
+              email: 'test@gg.com',
+              username: 'test',
+              password: '111111',
+              confirmPassword: '111111',
+              agree: true, // checkbox 同意會員註冊條款
+            })
+          }}
+        >
+          一鍵輸入
         </button>
       </form>
       <style jsx>

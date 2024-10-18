@@ -7,7 +7,7 @@ export default function Profile() {
     <>
       <h1>會員個人資料頁</h1>
       <hr />
-      <Link href="/cs-1001/user/login">連至 登入頁(Link元件)</Link>
+      <Link href="/cs-1018/member/login">連至 登入頁(Link元件)</Link>
       <hr />
       <p>帳號:{auth.userData.username}</p>
       <p>姓名:{auth.userData.name}</p>
