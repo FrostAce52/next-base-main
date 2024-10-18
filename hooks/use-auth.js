@@ -108,6 +108,28 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // 更新資料
+  const update = async (user) => {
+    // 向伺服器作fetch
+    const res = await fetch('http://localhost:3005/api/member', {
+      credentials: 'include', // 設定cookie必要設定，如果有需要授權或認証一定要加
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT', //更新時用PUT
+      body: JSON.stringify(user),
+    })
+
+    const resData = await res.json()
+
+    if (resData.status === 'success') {
+      notify('success', '更新完成', '已更新完成')
+    } else {
+      notify('error', '失敗', resData.message)
+    }
+  }
+
   // 模擬會員登入
   const login = async (username, password) => {
     // 向伺服器作fetch
@@ -142,7 +164,7 @@ export function AuthProvider({ children }) {
 
       // 歡迎訊息與詢問是否要到個人資料頁
       if (confirm('你好，是否要前往個人資料頁?')) {
-        router.push('/cs-1001/user/profile')
+        router.push('/cs-1018/member/profile')
       }
     } else {
       alert('帳號或密碼錯誤')
@@ -167,6 +189,7 @@ export function AuthProvider({ children }) {
     if (resData.status === 'success') {
       alert('成功登出!')
 
+      // 設定回原本的未登入的初始值
       setAuth({
         isAuth: false,
         userData: {
@@ -183,7 +206,9 @@ export function AuthProvider({ children }) {
 
   //3. 最外(上)元件階層包裹提供者元件，可以提供它的值給所有後代⼦孫元件使⽤，包含所有頁面元件，與頁面中的元件
   return (
-    <AuthContext.Provider value={{ auth, login, logout, notify, register }}>
+    <AuthContext.Provider
+      value={{ auth, getMember, login, logout, notify, register, update }}
+    >
       {children}
     </AuthContext.Provider>
   )
