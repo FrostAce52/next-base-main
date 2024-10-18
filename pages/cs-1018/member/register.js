@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useAuth } from '@/hooks/use-auth'
-import { useRouter } from 'next/router'
 
 export default function RegisterForm() {
-  const { notify } = useAuth()
-  const router = useRouter()
+  // 從勾子的context得到註冊函式
+  const { register } = useAuth()
+
   // 狀態為物件，屬性對應到表單的欄位名稱
   const [user, setUser] = useState({
     name: '',
@@ -109,35 +109,9 @@ export default function RegisterForm() {
 
     // 送到伺服器
     // 刪除不必要的欄位(不一定需要)
-    // const { confirmPassword, agree, ...newUser } = user
-
-    // 向伺服器作fetch
-    const res = await fetch('http://localhost:3005/api/member', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(user),
-    })
-
-    const resData = await res.json()
-
-    if (resData.status === 'success') {
-      notify(
-        'success',
-        '歡迎',
-        '你已註冊成功，現在要進行登入嗎？',
-        '進行登入',
-        () => {
-          router.push('/cs-1018/member/login')
-        }
-      )
-    } else {
-      notify('error', '失敗', resData.message)
-    }
-
-    console.log(resData)
+    const { confirmPassword, agree, ...newUser } = user
+    // 呼叫register(useAuth勾子裡)
+    await register(newUser)
   }
 
   return (

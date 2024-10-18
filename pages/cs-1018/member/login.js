@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -35,6 +35,14 @@ export default function Login() {
       >
         登入
       </button>
+      <button
+        onClick={() => {
+          setUsername('herry')
+          setPassword('11111')
+        }}
+      >
+        一鍵輸入
+      </button>
     </>
   )
 
@@ -55,9 +63,6 @@ export default function Login() {
       <h1>會員登入頁</h1>
       <hr />
       <p>目前會員登入狀態: {auth?.isAuth ? '已登入' : '未登入'}</p>
-      {/* a連結會導致頁面重新刷新，讓狀態全都恢復到預設值 */}
-      {/* <a href="/cs-1001/user/profile">連至 個人資料頁(a標記)</a>
-      <br /> */}
       {/* Link元件一樣會渲染為a連結，但頁面不會重新刷新，讓狀態在不同頁面切換時可以繼續保持 */}
       <Link href="/cs-1018/member/profile">連至 個人資料頁(Link元件)</Link>
       <hr />
